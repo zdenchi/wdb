@@ -24,11 +24,11 @@ const campTemporaryDB = [
 ];
 
 app.get('/', (req, res) => {
-  res.render('landing');
+  res.render('landing', {title: 'Landing Page'});
 });
 
 app.get('/campgrounds', (req, res) => {
-  res.render('campgrounds', {camps: campTemporaryDB});
+  res.render('campgrounds', {camps: campTemporaryDB, title: 'All Campgrounds'});
 });
 
 app.post('/campgrounds', (req, res) => {
@@ -39,7 +39,7 @@ app.post('/campgrounds', (req, res) => {
 });
 
 app.get('/campgrounds/new', (req, res) => {
-  res.render('new');
+  res.render('new', {title: 'Add New Campground'});
 });
 
 // 404 - For non-existing page

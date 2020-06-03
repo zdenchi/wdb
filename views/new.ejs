@@ -1,13 +1,18 @@
 <%- include("partials/head") %>
 
-<h1>Add new campground</h1>
+<div class="jumbotron jumbotron-fluid bg-transparent">
+  <div class="container">
+    <h1><%= title %></h1>
+    <a href="/campgrounds" class="btn btn-warning">Go Back</a>
+  </div>
+</div>
 
-<form action="/campgrounds" method="post">
-  <input type="text" name="name" placeholder="Camp name" aria-placeholder="Camp name" required>
-  <input type="text" name="imageURL" placeholder="Image URL" aria-placeholder="Image URL" required>
-  <button>Submit</button>
-</form>
-
-<a href="/campgrounds">Go Back</a>
+<div class="container">
+  <form action="/campgrounds" method="post">
+    <input type="text" name="name" placeholder="Camp name" aria-placeholder="Camp name" required>
+    <input type="text" name="imageURL" placeholder="Image URL" aria-placeholder="Image URL" required>
+    <button>Submit</button>
+  </form>
+</div>
 
 <%- include("partials/footer") %>
