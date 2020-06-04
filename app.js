@@ -32,7 +32,7 @@ app.get('/campgrounds', (req, res) => {
 });
 
 app.post('/campgrounds', (req, res) => {
-  const name = req.body.name;
+  const name = req.body.campName;
   const image = req.body.imageURL;
   campTemporaryDB.push({name, image});
   res.redirect('/campgrounds');
