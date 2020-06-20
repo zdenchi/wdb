@@ -16,6 +16,15 @@
       <p><%= camp.description %></p>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-12">
+      <% camp.comments.forEach(item => { %>
+        <h5 class="title"><%= item.author %>:</h5>
+        <p class="text"><%= item.text %></p>
+      <%  }); %>
+    </div>
+  </div>
 </div>
 
 <%- include("partials/footer") %>
