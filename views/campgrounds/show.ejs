@@ -1,4 +1,4 @@
-<%- include("partials/head") %>
+<%- include("../partials/head") %>
 
 <div class="container">
   <div class="row text-center mb-4">
@@ -18,13 +18,19 @@
   </div>
 
   <div class="row">
+    <% camp.comments.forEach(item => { %>
     <div class="col-12">
-      <% camp.comments.forEach(item => { %>
         <h5 class="title"><%= item.author %>:</h5>
         <p class="text"><%= item.text %></p>
-      <%  }); %>
+    </div>
+    <%  }); %>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <a class="btn btn-warning" href="/campgrounds/<%= camp.id  %>/comments/new">Add Comment</a>
     </div>
   </div>
 </div>
 
-<%- include("partials/footer") %>
+<%- include("../partials/footer") %>
