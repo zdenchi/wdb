@@ -16,12 +16,11 @@ Web Developer Bootcamp
 
 
 
-name          url          verb                 desc
-============================================================================
-INDEX         /campgrounds        GET           Display a list of all campgrounds
-NEW           /campgrounds/new    GET           Displays form to make a new campgrounds
-CREATE        /campgrounds        POST          Add new campgrounds to DB
-SHOW          /campgrounds/:id    GET           Shows info about one campgrounds
-
-NEW           /campgrounds/:id/comments/new    GET           Displays form to make a new comment
-CREATE        /campgrounds/:id/comments        POST          Add new comment to DB
+| name | url | verb | desc |
+|------|-----|------|------|
+| INDEX  | /campgrounds     | GET  | Display a list of all campgrounds |
+| NEW    | /campgrounds/new | GET  | Displays form to make a new campgrounds |
+| CREATE | /campgrounds     | POST | Add new campgrounds to DB |
+| SHOW   | /campgrounds/:id | GET  | Shows info about one campgrounds |
+| NEW    | /campgrounds/:id/comments/new | GET | Displays form to make a new comment |
+| CREATE | /campgrounds/:id/comments | POST | Add new comment to DB |
