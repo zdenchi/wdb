@@ -13,13 +13,18 @@ const LocalStrategy = require('passport-local');
 const Campground = require('./models/campground');
 const Comment = require('./models/comment');
 const User = require('./models/user');
-const seedDB = require('./seeds');
+// const seedDB = require('./seeds');
 
-mongoose.connect('mongodb://localhost/yelp_camp_v6', {useNewUrlParser: true, useUnifiedTopology: true});
+//requring routes
+const commentRoutes = require('./routes/comments');
+const campgroundRoutes = require('./routes/campgrounds');
+const indexRoutes = require('./routes/index');
+
+mongoose.connect('mongodb://localhost/yelp_camp_v7', {useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-seedDB();
+// seedDB();
 
 /*******************
  * PASSPORT CONFIG
@@ -43,128 +48,9 @@ app.use((req, res, next) => {
   next();
 });
 
-const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-};
-
-/**********
- * ROUTES
- *********/
-app.get('/', (req, res) => {
-  res.render('landing');
-});
-
-// INDEX - Display a list of all camps
-app.get('/campgrounds', (req, res) => {
-  Campground.find({}, (err, campList) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render('campgrounds/index', {camps: campList, currentUser: req.user});
-    }
-  });
-});
-
-// CREATE - Add new camp to DB
-app.post('/campgrounds', (req, res) => {
-  const name = req.body.campName;
-  const image = req.body.imageURL;
-  const description = req.body.description;
-  const newCamp = {name: name, image: image, description: description};
-
-  Campground.create(newCamp, (err, camp) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Camp successfully added!");
-      res.redirect('/campgrounds');
-    }
-  });
-});
-
-// NEW - Display form to add a new camp
-app.get('/campgrounds/new', isLoggedIn, (req, res) => {
-  res.render('campgrounds/new');
-});
-
-// SHOW - Shows info about one camp
-app.get('/campgrounds/:id', (req, res) => {
-  Campground.findById(req.params.id).populate('comments').exec((err, camp) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(camp);
-      res.render('campgrounds/show', {camp: camp});
-    }
-  });
-});
-
-// COMMENTS ROUTES
-app.get('/campgrounds/:id/comments/new', isLoggedIn, (req, res) => {
-  Campground.findById(req.params.id, (err, camp) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render('comments/new', {camp: camp});
-    }
-  });
-});
-
-app.post('/campgrounds/:id/comments', isLoggedIn, (req, res) => {
-  Campground.findById(req.params.id, (err, campground) => {
-    if (err) {
-      console.log(err);
-      res.redirect('/campgrounds');
-    } else {
-      Comment.create(req.body.comment, (err, comment) => {
-        if (err) {
-          console.log(err);
-        } else {
-          campground.comments.push(comment);
-          campground.save();
-          res.redirect(`/campgrounds/${campground.id}`);
-        }
-      });
-    }
-  });
-});
-
-// AUTH ROUTES
-app.route('/register')
-  .get((req, res) => {
-    res.render('register');
-  })
-  .post((req, res) => {
-    const newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, (err, user) => {
-      if (err) {
-        console.log(err);
-        return res.render('register');
-      }
-      passport.authenticate('local')(req, res, () => {
-        res.redirect('/campgrounds');
-      });
-    });
-  });
-
-app.route('/login')
-  .get((req, res) => {
-    res.render('login');
-  })
-  .post(passport.authenticate('local', {
-    successRedirect: '/campgrounds',
-    failureRedirect: '/login'
-  }), (req, res) => {
-    res.send('login post');
-  });
-
-app.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/campgrounds');
-});
+app.use('/', indexRoutes);
+app.use('/campgrounds', campgroundRoutes);
+app.use('/campgrounds/:id/comments', commentRoutes);
 
 // 404 - For non-existing page
 app.get('*', (req, res) => res.send('404 Page Not Found'));
