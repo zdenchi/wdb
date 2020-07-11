@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const methodOverride = require('method-override');
 
 /**********
  * MODELS
@@ -24,6 +25,7 @@ mongoose.connect('mongodb://localhost/yelp_camp_v7', {useNewUrlParser: true, use
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 // seedDB();
 
 /*******************

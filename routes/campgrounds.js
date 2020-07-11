@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Campground = require('../models/campground');
+const { findById } = require('../models/comment');
 
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -55,6 +56,29 @@ router.get('/:id', (req, res) => {
     } else {
       // console.log(camp);
       res.render('campgrounds/show', {camp: camp});
+    }
+  });
+});
+
+// EDIT CAMP ROUTE
+router.get('/:id/edit', (req, res) => {
+  Campground.findById(req.params.id, (err, foundCamp) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('campgrounds/edit', { camp: foundCamp });
+    }
+  });
+});
+
+// UPD CAMP ROUTE
+router.put('/:id', (req, res) => {
+  Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updCamp) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect('/campgrounds/' + req.params.id);
     }
   });
 });
