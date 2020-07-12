@@ -9,10 +9,12 @@
 
 <div class="container">
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 text-center">
+
     <% camps.forEach(item => { %>
       <div class="col mb-4">
         <div class="card h-100">
           <img class="card-img-top img-thumbnail" src="<%= item.image %>" alt="<%= item.name %>" style="height: 150px;">
+
           <div class="card-body">
             <h5 class="card-title"><%= item.name %></h5>
             <a href="/campgrounds/<%= item._id %>" class="btn btn-success">More Info</a>
@@ -20,6 +22,7 @@
         </div>
       </div>
     <% }); %>
+
   </div>
 </div>
 

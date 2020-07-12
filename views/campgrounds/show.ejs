@@ -15,36 +15,47 @@
     <div class="col-md-9">
       <div class="card mb-3">
         <img src="<%= camp.image %>" class="card-img-top img-thumbnail border-0" alt="<%= camp.name %>">
+
         <div class="card-body">
           <div class="float-none">
             <h5 class="card-title float-right"><%= camp.author.username %></h5>
             <h5 class="card-title"><a href="#"><%= camp.name %></a></h5>
           </div>
+
           <p class="card-text"><%= camp.description %></p>
+
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
             <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-sm btn-warning btn-edit">Edit</a>
             <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST" style="margin: 10px 0; display: inline;">
               <button class="btn btn-sm btn-danger btn-delete">Delete</button>
             </form>
           <% } %>
+
         </div>
       </div>
 
       <div class="card border-dark mb-3">
         <div class="card-body">
           <div class="row">
+
             <% camp.comments.forEach(item => { %>
               <div class="col-md-9 mb-3">
                 <h5 class="title"><%= item.author.username %></h5>
+
                 <p class="text mb-0"><%= item.text %></p>
+
                 <% if (currentUser && item.author.id.equals(currentUser._id)) { %>
                   <a href="/campgrounds/<%= camp._id %>/comments/<%= item._id %>/edit" class="btn btn-sm btn-warning btn-edit">Edit</a>
+
                   <form action="/campgrounds/<%= camp._id %>/comments/<%= item._id %>?_method=DELETE" method="POST" style="margin: 10px 0; display: inline;">
                     <input type="submit" class="btn btn-sm btn-danger btn-delete" value="Delete">
                   </form>
                 <% } %>
+
               </div>
+
             <%  }); %>
+
           </div>
 
             <div class="text-center">
