@@ -1,10 +1,23 @@
 <%- include("partials/head") %>
 
-<div class="jumbotron jumbotron-fluid bg-transparent">
-  <div class="container">
-    <h1>Campgrounds</h1>
-    <a href="/campgrounds" class="btn btn-warning">View All</a>
+<div class="jumbotron jumbotron-fluid bg-transparent mh-100">
+  <div class="container text-center">
+    <h1>Welcome to YelpCamp!</h1>
+    <a href="/campgrounds" class="btn btn-lg btn-success">View All Campgrounds</a>
   </div>
 </div>
+
+  <div class="container">
+    <% if(error && error.length > 0){ %>
+      <div class="alert alert-danger" role="alert">
+        <%= error %>
+      </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+      <div class="alert alert-success" role="alert">
+        <%= success %>
+      </div>
+    <% } %>
+  </div>
 
 <%- include("partials/footer") %>
